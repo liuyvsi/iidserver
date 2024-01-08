@@ -1,0 +1,31 @@
+一 、http服务框架程序的生成：
+1、更改以上服务端程序，使其增加XXXX服务，
+请求方式：XXX
+请求路径：XXXXX，
+请求示例：
+
+响应示例：
+
+XXXX
+异常示例：
+XXXX
+
+2、更改以下客户端程序，使其增加相应XXX功能，配合服务端程序进行演示
+
+
+3、请将以下程序中的服务合并到以上程序，形成一个完整的程序（这个用三次以上就会出问题）
+
+二、数据库基本程序的生成：
+{
+    "prefix": "88.101.5",
+    "version": "1.0.0",
+    "industryCategory": "A",
+    "industrySpecific": "01",
+    "industryTrade": "011",
+    "industrySubclass": "0111",
+    "type": 1,
+    "description": "测试模板",
+    "items": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx"
+}
+Rust编写一个类，对应以上json有一个数据结构作为主要属性；具有方法按以上json字符串的样式在sqlite3数据库中建立一个表；具有对数据库进行增、删、改、查等各种操作的方法；
+编写一个主程序演示它的使用。

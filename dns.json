@@ -1,0 +1,30 @@
+{
+    "DNS_Message": {
+      "Header": {
+        "ID": {"Value": 1234, "Type": "Unsigned Integer (16 bits)"},
+        "QR": {"Value": 0, "Type": "Flag (1 bit)"},
+        "Opcode": {"Value": 0, "Type": "Unsigned Integer (4 bits)"},
+        "AA": {"Value": 0, "Type": "Flag (1 bit)"},
+        "TC": {"Value": 0, "Type": "Flag (1 bit)"},
+        "RD": {"Value": 1, "Type": "Flag (1 bit)"},
+        "RA": {"Value": 0, "Type": "Flag (1 bit)"},
+        "Z": {"Value": 0, "Type": "Unsigned Integer (3 bits)"},
+        "RCODE": {"Value": 0, "Type": "Unsigned Integer (4 bits)"},
+        "QDCOUNT": {"Value": 1, "Type": "Unsigned Integer (16 bits)"},
+        "ANCOUNT": {"Value": 0, "Type": "Unsigned Integer (16 bits)"},
+        "NSCOUNT": {"Value": 0, "Type": "Unsigned Integer (16 bits)"},
+        "ARCOUNT": {"Value": 0, "Type": "Unsigned Integer (16 bits)"}
+      },
+      "Questions": [
+        {
+          "QNAME": "example.com",
+          "QTYPE": {"Value": 1, "Type": "Unsigned Integer (16 bits)"},
+          "QCLASS": {"Value": 1, "Type": "Unsigned Integer (16 bits)"}
+        }
+      ],
+      "Answers": [],
+      "Authorities": [],
+      "Additionals": []
+    }
+  }
+  

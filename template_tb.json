@@ -1,0 +1,35 @@
+[
+    {
+        "name": "网址",
+        "idType": "ip",
+        "idIndex": "2000",
+        "metadata": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
+        },
+        "required": false
+    },
+    {
+        "name": "端口号",
+        "idType": "port",
+        "idIndex": "2001",
+        "metadata": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
+        },
+        "required": false
+    },
+    {
+        "name": "域名",
+        "idType": "DNS",
+        "idIndex": "2003",
+        "metadata": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+        },
+        "required": false
+    }
+]
