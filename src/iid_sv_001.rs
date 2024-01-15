@@ -2,6 +2,7 @@ use actix_web::{web, App, HttpServer, HttpResponse,Responder};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
+
 #[derive(Debug, Serialize, Deserialize)]
 struct LoginRequest {
     username: String,
@@ -81,7 +82,7 @@ async fn handle_login(login_request: web::Json<LoginRequest>) -> HttpResponse {
 }
 
 async fn handle_identity_query(query: web::Query<IdentityQuery>) -> HttpResponse {
-     if query.handle.is_empty() {
+    if query.handle.is_empty() {
         let response = IdentityResponse {
             message: "缺少必要的请求参数: handle".to_string(),
             status: -2,
@@ -206,31 +207,24 @@ async fn handle_batch_delete(data: web::Json<Vec<String>>) -> HttpResponse {
     HttpResponse::Ok().json(response)
 }
 
-async fn handle_template_creat(req_body: web::Json<TemplateCreateRequest>) -> HttpResponse {
-    // Process the incoming template creation request
-    // Replace the following logic with your actual template creation implementation
-
-    // Simulated success response
-    println!("{:?}", req_body);
-    let response = TokenResponse2 {
-        message: "success".to_string(),
-        status: 1,
-        data: Some(TokenData { token: "dummy_token".to_string() }), // Placeholder token data
-    };
-
-    HttpResponse::Ok().json(response)
+#[derive(Debug, Serialize, Deserialize)]
+struct TemplateQuery {
+    prefix: String,
+    version: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct TemplateCreateRequest {
+struct TemplateData {
+    id: u32,
     prefix: String,
+    name: String,
     version: String,
     industryCategory: String,
     industrySpecific: String,
     industryTrade: String,
     industrySubclass: String,
     #[serde(rename = "type")]
-    template_type: i32,
+    template_type: u32,
     description: String,
     items: Vec<TemplateItem>,
 }
@@ -239,31 +233,82 @@ struct TemplateCreateRequest {
 struct TemplateItem {
     name: String,
     idType: String,
-    metadata: TemplateMetadata,
+    metadataId: u32,
+    metadata: Metadata,
     required: bool,
+    state: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct TemplateMetadata {
-    #[serde(rename = "type")]
-    data_type: String,
+struct Metadata {
+    r#type: String,
     minLength: u32,
     maxLength: u32,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct TemplateResponse {
+    message: String,
+    status: i32,
+    data: Option<TemplateData>,
+}
 
+async fn handle_template_inquiry(query: web::Query<TemplateQuery>) -> impl Responder {
+    if query.prefix.is_empty() || query.version.is_empty() {
+        let response = TemplateResponse {
+            message: "缺少必要的请求参数: prefix 或 version".to_string(),
+            status: -2,
+            data: None,
+        };
+        return HttpResponse::BadRequest().json(response);
+    }
+
+    // Simulated template inquiry logic
+    let template_data = TemplateData {
+        id: 177,
+        prefix: "88.101.5".to_string(),
+        name: "".to_string(),
+        version: "1.0.1".to_string(),
+        industryCategory: "A".to_string(),
+        industrySpecific: "01".to_string(),
+        industryTrade: "011".to_string(),
+        industrySubclass: "0111".to_string(),
+        template_type: 1,
+        description: "模板1.0.1".to_string(),
+        items: vec![
+            TemplateItem {
+                name: "e1".to_string(),
+                idType: "ip".to_string(),
+                metadataId: 124,
+                metadata: Metadata {
+                    r#type: "string".to_string(),
+                    minLength: 1,
+                    maxLength: 10,
+                },
+                required: false,
+                state: 0,
+            },
+        ],
+    };
+
+    let response = TemplateResponse {
+        message: "success".to_string(),
+        status: 1,
+        data: Some(template_data),
+    };
+
+    HttpResponse::Ok().json(response)
+}
 
 
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Initialize logger
-    env_logger::init();
     HttpServer::new(|| {
         App::new()
             .service(web::resource("/identity/token").route(web::post().to(handle_login)))
             .service(web::resource("/identityv2/data/detail").route(web::get().to(handle_identity_query)))
-            .service(web::resource("/snms/template_creat").route(web::post().to(handle_template_creat)))
+            .service(web::resource("/snms/api/v5/template").route(web::get().to(handle_template_inquiry)))
             .service(web::resource("/identityv2/data/batchCreate").route(web::post().to(handle_batch_create)))
             .service(web::resource("/identityv2/data").route(web::delete().to(handle_delete)))
             .service(web::resource("/identityv2/data/batchDelete").route(web::delete().to(handle_batch_delete)))
